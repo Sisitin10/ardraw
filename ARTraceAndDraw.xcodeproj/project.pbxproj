@@ -15,7 +15,7 @@
 		9B00000B29F0000000000006 /* PictureLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B00000C29F0000000000006 /* PictureLibraryView.swift */; };
 		9B00000D29F0000000000007 /* OutlineStudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B00000E29F0000000000007 /* OutlineStudioView.swift */; };
 		9B00000F29F0000000000008 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B00001029F0000000000008 /* SettingsView.swift */; };
-		9B00001D29F0000000000015 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B00001E29F0000000000016 /* ImagePicker.swift */; };
+		9B00001F29F0000000000017 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B00002029F0000000000018 /* ImagePicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +27,7 @@
 		9B00000C29F0000000000006 /* PictureLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/PictureLibraryView.swift; sourceTree = "<group>"; };
 		9B00000E29F0000000000007 /* OutlineStudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/OutlineStudioView.swift; sourceTree = "<group>"; };
 		9B00001029F0000000000008 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/SettingsView.swift; sourceTree = "<group>"; };
-		9B00001E29F0000000000016 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/ImagePicker.swift; sourceTree = "<group>"; };
+		9B00002029F0000000000018 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/ImagePicker.swift; sourceTree = "<group>"; };
 		9B00001129F0000000000009 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B00001229F000000000000A /* ARTraceAndDraw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARTraceAndDraw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -60,7 +60,7 @@
 				9B00000C29F0000000000006 /* PictureLibraryView.swift */,
 				9B00000E29F0000000000007 /* OutlineStudioView.swift */,
 				9B00001029F0000000000008 /* SettingsView.swift */,
-				9B00001E29F0000000000016 /* ImagePicker.swift */,
+				9B00002029F0000000000018 /* ImagePicker.swift */,
 				9B00000629F0000000000003 /* TracingModels.swift */,
 				9B00000829F0000000000004 /* HapticManager.swift */,
 				9B00001129F0000000000009 /* Info.plist */,
@@ -133,7 +133,7 @@
 				9B00000B29F0000000000006 /* PictureLibraryView.swift in Sources */,
 				9B00000D29F0000000000007 /* OutlineStudioView.swift in Sources */,
 				9B00000F29F0000000000008 /* SettingsView.swift in Sources */,
-				9B00001D29F0000000000015 /* ImagePicker.swift in Sources */,
+				9B00001F29F0000000000017 /* ImagePicker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
