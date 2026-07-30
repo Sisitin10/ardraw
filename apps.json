@@ -1,0 +1,29 @@
+{
+  "name": "ARTraceAndDraw Source",
+  "subtitle": "AR Trace & Draw App",
+  "description": "AR tracing and drawing app for iOS",
+  "iconURL": "https://raw.githubusercontent.com/Sisitin10/ardraw/main/ARTraceAndDraw/Assets.xcassets/AppIcon.appiconset/icon-1024.png",
+  "headerURL": "https://raw.githubusercontent.com/Sisitin10/ardraw/main/ARTraceAndDraw/Assets.xcassets/AppIcon.appiconset/icon-1024.png",
+  "website": "https://github.com/Sisitin10/ardraw",
+  "tintColor": "#0088FF",
+  "apps": [
+    {
+      "name": "ARTraceAndDraw",
+      "bundleIdentifier": "com.sisudev.ardraw",
+      "developerName": "Sisitin10",
+      "subtitle": "AR Trace & Draw",
+      "localizedDescription": "AR tracing and drawing app for iOS.",
+      "iconURL": "https://raw.githubusercontent.com/Sisitin10/ardraw/main/ARTraceAndDraw/Assets.xcassets/AppIcon.appiconset/icon-1024.png",
+      "tintColor": "#0088FF",
+      "versions": [
+        {
+          "version": "1.0.0",
+          "date": "2026-07-30",
+          "localizedDescription": "Latest release build",
+          "downloadURL": "https://github.com/Sisitin10/ardraw/releases/latest/download/ARTraceAndDraw.ipa",
+          "size": 10000000
+        }
+      ]
+    }
+  ]
+}
