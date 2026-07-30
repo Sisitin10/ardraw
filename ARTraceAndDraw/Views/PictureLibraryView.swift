@@ -9,60 +9,111 @@ import SwiftUI
 
 struct PictureLibraryView: View {
     @Binding var selectedImageName: String
+    @Binding var selectedSystemIcon: String
+    @Binding var selectedUIImage: UIImage?
     @Binding var activeTab: TabType
     
-    let presets: [PresetImage] = [
-        PresetImage(id: "1", title: "Cute Bunny", category: "Animals", imageName: "bunny", isTransparent: true, difficulty: "Easy"),
-        PresetImage(id: "2", title: "Rose Floral", category: "Botanical", imageName: "rose", isTransparent: true, difficulty: "Medium"),
-        PresetImage(id: "3", title: "Anime Portrait", category: "Anime", imageName: "anime_face", isTransparent: true, difficulty: "Hard"),
-        PresetImage(id: "4", title: "Vintage Car", category: "Vehicles", imageName: "car", isTransparent: true, difficulty: "Medium"),
-    ]
+    @State private var showingImagePicker = false
     
+    let presets = PresetData.presets
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
 
     var body: some View {
         NavigationView {
             ScrollView {
-                LazyVGrid(columns: columns, spacing: 16) {
-                    ForEach(presets) { item in
-                        VStack(alignment: .leading, spacing: 8) {
-                            ZStack(alignment: .topTrailing) {
-                                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                    .fill(Color(uiColor: .secondarySystemBackground))
-                                    .aspectRatio(1, contentMode: .fit)
-                                
-                                Image(systemName: "photo.fill")
-                                    .font(.system(size: 40))
-                                    .foregroundColor(.gray.opacity(0.4))
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                
-                                Text(item.difficulty)
-                                    .font(.system(size: 10, weight: .bold))
-                                    .padding(.horizontal, 8)
-                                    .padding(.vertical, 4)
-                                    .background(Capsule().fill(Color.blue.opacity(0.2)))
+                VStack(spacing: 20) {
+                    // Custom Photo Import Banner
+                    Button(action: {
+                        HapticManager.shared.selection()
+                        showingImagePicker = true
+                    }) {
+                        HStack(spacing: 14) {
+                            ZStack {
+                                Circle()
+                                    .fill(Color.blue.opacity(0.15))
+                                    .frame(width: 48, height: 48)
+                                Image(systemName: "photo.badge.plus.fill")
+                                    .font(.title2)
                                     .foregroundColor(.blue)
-                                    .padding(8)
                             }
                             
-                            Text(item.title)
-                                .font(.system(.body, design: .default, weight: .semibold))
-                                .foregroundColor(.primary)
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Import from Photos Library")
+                                    .font(.system(.headline, design: .rounded))
+                                    .foregroundColor(.primary)
+                                Text("Choose any picture or sketch from your iPhone camera roll")
+                                    .font(.system(.caption, design: .default))
+                                    .foregroundColor(.secondary)
+                            }
                             
-                            Text(item.category)
-                                .font(.system(size: 12))
-                                .foregroundColor(.secondary)
+                            Spacer()
+                            
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 14, weight: .bold))
+                                .foregroundColor(.gray)
                         }
-                        .onTapGesture {
-                            HapticManager.shared.selection()
-                            selectedImageName = item.imageName
-                            activeTab = .draw
+                        .padding(16)
+                        .background(Color(uiColor: .secondarySystemBackground))
+                        .cornerRadius(16)
+                    }
+                    
+                    // Stencil Presets Header
+                    HStack {
+                        Text("Template Presets")
+                            .font(.title3.weight(.bold))
+                        Spacer()
+                    }
+                    
+                    LazyVGrid(columns: columns, spacing: 16) {
+                        ForEach(presets) { item in
+                            VStack(alignment: .leading, spacing: 8) {
+                                ZStack(alignment: .topTrailing) {
+                                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                        .fill(Color(uiColor: .secondarySystemBackground))
+                                        .aspectRatio(1, contentMode: .fit)
+                                    
+                                    Image(systemName: item.systemIcon)
+                                        .font(.system(size: 48))
+                                        .foregroundColor(.blue.opacity(0.8))
+                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    
+                                    Text(item.difficulty)
+                                        .font(.system(size: 10, weight: .bold))
+                                        .padding(.horizontal, 8)
+                                        .padding(.vertical, 4)
+                                        .background(Capsule().fill(Color.blue.opacity(0.2)))
+                                        .foregroundColor(.blue)
+                                        .padding(8)
+                                }
+                                
+                                Text(item.title)
+                                    .font(.system(.body, design: .default, weight: .semibold))
+                                    .foregroundColor(.primary)
+                                
+                                Text(item.category)
+                                    .font(.system(size: 12))
+                                    .foregroundColor(.secondary)
+                            }
+                            .onTapGesture {
+                                HapticManager.shared.selection()
+                                selectedImageName = item.imageName
+                                selectedSystemIcon = item.systemIcon
+                                selectedUIImage = nil
+                                activeTab = .draw
+                            }
                         }
                     }
                 }
                 .padding()
             }
             .navigationTitle("Stencil Library")
+            .sheet(isPresented: $showingImagePicker) {
+                ImagePicker(selectedImage: $selectedUIImage) { pickedImage in
+                    selectedImageName = "custom_imported"
+                    selectedSystemIcon = "photo.fill"
+                    activeTab = .draw
+                }
+            }
         }
     }
 }

@@ -11,26 +11,44 @@ struct ContentView: View {
     @State private var activeTab: TabType = .draw
     @State private var transform = ImageTransform()
     @State private var selectedImageName = "bunny"
+    @State private var selectedSystemIcon = "pawprint.fill"
+    @State private var selectedUIImage: UIImage? = nil
     
     var body: some View {
         TabView(selection: $activeTab) {
-            ARCameraView(transform: $transform, selectedImageName: selectedImageName)
-                .tabItem {
-                    Label("AR Draw", systemImage: activeTab == .draw ? "camera.fill" : "camera")
-                }
-                .tag(TabType.draw)
+            ARCameraView(
+                transform: $transform,
+                selectedImageName: selectedImageName,
+                selectedUIImage: selectedUIImage,
+                selectedSystemIcon: selectedSystemIcon
+            )
+            .tabItem {
+                Label("AR Draw", systemImage: activeTab == .draw ? "camera.fill" : "camera")
+            }
+            .tag(TabType.draw)
             
-            PictureLibraryView(selectedImageName: $selectedImageName, activeTab: $activeTab)
-                .tabItem {
-                    Label("Library", systemImage: activeTab == .library ? "photo.fill" : "photo")
-                }
-                .tag(TabType.library)
+            PictureLibraryView(
+                selectedImageName: $selectedImageName,
+                selectedSystemIcon: $selectedSystemIcon,
+                selectedUIImage: $selectedUIImage,
+                activeTab: $activeTab
+            )
+            .tabItem {
+                Label("Library", systemImage: activeTab == .library ? "photo.fill" : "photo")
+            }
+            .tag(TabType.library)
             
-            OutlineStudioView(transform: $transform)
-                .tabItem {
-                    Label("Studio", systemImage: "slider.horizontal.3")
-                }
-                .tag(TabType.studio)
+            OutlineStudioView(
+                transform: $transform,
+                selectedUIImage: $selectedUIImage,
+                selectedImageName: $selectedImageName,
+                selectedSystemIcon: $selectedSystemIcon,
+                activeTab: $activeTab
+            )
+            .tabItem {
+                Label("Studio", systemImage: "slider.horizontal.3")
+            }
+            .tag(TabType.studio)
             
             SettingsView()
                 .tabItem {

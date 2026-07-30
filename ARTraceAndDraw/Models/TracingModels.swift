@@ -43,6 +43,28 @@ public struct PresetImage: Identifiable, Hashable {
     public let title: String
     public let category: String
     public let imageName: String
+    public let systemIcon: String
     public let isTransparent: Bool
     public let difficulty: String
+
+    public init(id: String, title: String, category: String, imageName: String, systemIcon: String, isTransparent: Bool, difficulty: String) {
+        self.id = id
+        self.title = title
+        self.category = category
+        self.imageName = imageName
+        self.systemIcon = systemIcon
+        self.isTransparent = isTransparent
+        self.difficulty = difficulty
+    }
+}
+
+public struct PresetData {
+    public static let presets: [PresetImage] = [
+        PresetImage(id: "1", title: "Cute Bunny", category: "Animals", imageName: "bunny", systemIcon: "pawprint.fill", isTransparent: true, difficulty: "Easy"),
+        PresetImage(id: "2", title: "Rose Floral", category: "Botanical", imageName: "rose", systemIcon: "leaf.fill", isTransparent: true, difficulty: "Medium"),
+        PresetImage(id: "3", title: "Anime Portrait", category: "Anime", imageName: "anime_face", systemIcon: "face.smiling", isTransparent: true, difficulty: "Hard"),
+        PresetImage(id: "4", title: "Vintage Car", category: "Vehicles", imageName: "car", systemIcon: "car.fill", isTransparent: true, difficulty: "Medium"),
+        PresetImage(id: "5", title: "Butterfly", category: "Animals", imageName: "butterfly", systemIcon: "sparkles", isTransparent: true, difficulty: "Easy"),
+        PresetImage(id: "6", title: "Star Geometric", category: "Shapes", imageName: "star", systemIcon: "star.fill", isTransparent: true, difficulty: "Easy")
+    ]
 }
