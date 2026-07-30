@@ -1,15 +1,15 @@
-name: Build Unsigned IPA 🫩✌️
+name: Build Unsigned IPA
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
 
 jobs:
   build-and-release:
     runs-on: macos-latest
     permissions:
-      contents: write 
+      contents: write
 
     steps:
       - name: Checkout code
@@ -21,6 +21,7 @@ jobs:
           -scheme ARTraceAndDraw \
           -configuration Release \
           -sdk iphoneos \
+          IPHONEOS_DEPLOYMENT_TARGET=26.0 \
           CONFIGURATION_BUILD_DIR=build \
           CODE_SIGN_IDENTITY="" \
           CODE_SIGNING_REQUIRED=NO \
@@ -37,6 +38,7 @@ jobs:
       - name: Upload to GitHub Releases
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: "v1.0.${{ github.run_number }}"
           files: build/ARTraceAndDraw.ipa
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
