@@ -95,41 +95,10 @@ struct StencilGraphicView: View {
     }
 }
 
-// Glass button style and interactive modifier support
-struct GlassButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .padding(14)
-            .background(.ultraThinMaterial, in: Circle())
-            .overlay(
-                Circle()
-                    .stroke(Color.white.opacity(0.25), lineWidth: 1)
-            )
-            .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
-            .scaleEffect(configuration.isPressed ? 0.92 : 1.0)
-            .animation(.easeOut(duration: 0.15), value: configuration.isPressed)
-    }
-}
-
-extension ButtonStyle where Self == GlassButtonStyle {
-    static var glass: GlassButtonStyle { GlassButtonStyle() }
-}
-
 extension View {
     func interactive(_ enabled: Bool = true) -> some View {
         self.contentShape(Circle())
             .hoverEffect(.highlight)
-    }
-
-    func glassEffect() -> some View {
-        self
-            .padding(3)
-            .background(.ultraThinMaterial, in: Capsule())
-            .overlay(
-                Capsule()
-                    .stroke(Color.white.opacity(0.25), lineWidth: 1)
-            )
-            .shadow(color: .black.opacity(0.15), radius: 6, x: 0, y: 3)
     }
 }
 
@@ -251,9 +220,9 @@ struct ARCameraView: View {
                     }
                     .pickerStyle(.segmented)
                     .frame(width: 110)
-                    .glassEffect()
+                    .glassBackgroundEffect()
                     .interactive(true)
-                    .onChange(of: zoomLevel) { newValue in
+                    .onChange(of: zoomLevel) { _, _ in
                         HapticManager.shared.selection()
                     }
                     

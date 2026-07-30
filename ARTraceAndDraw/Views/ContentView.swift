@@ -57,7 +57,7 @@ struct ContentView: View {
                 .tag(TabType.settings)
         }
         .tint(Color.blue)
-        .onChange(of: activeTab) { _ in
+        .onChange(of: activeTab) { _, _ in
             HapticManager.shared.selection()
         }
     }

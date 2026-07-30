@@ -99,7 +99,7 @@ struct OutlineStudioView: View {
                         }
                     }
                     .pickerStyle(.segmented)
-                    .onChange(of: transform.filterMode) { _ in
+                    .onChange(of: transform.filterMode) { _, _ in
                         HapticManager.shared.selection()
                     }
                 }
