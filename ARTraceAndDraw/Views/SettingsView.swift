@@ -61,8 +61,20 @@ struct SettingsView: View {
                     HStack {
                         Text("Framework")
                         Spacer()
-                        Text("AVFoundation + SwiftUI")
+                        Text("AVFoundation + SwiftUI + Vision")
                             .foregroundColor(.secondary)
+                    }
+                    
+                    Link(destination: URL(string: "https://github.com/Sisitin10/ardraw/")!) {
+                        HStack {
+                            Label("GitHub Repository", systemImage: "arrow.up.right.circle.fill")
+                                .fontWeight(.semibold)
+                                .foregroundColor(.blue)
+                            Spacer()
+                            Text("Sisitin10/ardraw")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
                     }
                 }
             }

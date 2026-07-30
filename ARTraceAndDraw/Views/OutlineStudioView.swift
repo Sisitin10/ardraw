@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import Vision
+import CoreImage
 
 struct OutlineStudioView: View {
     @Binding var transform: ImageTransform
@@ -15,6 +17,9 @@ struct OutlineStudioView: View {
     @Binding var activeTab: TabType
     
     @State private var showingImagePicker = false
+    @State private var originalUIImage: UIImage? = nil
+    @State private var isProcessingBG = false
+    @State private var hasRemovedBG = false
     
     var body: some View {
         NavigationView {
@@ -104,6 +109,60 @@ struct OutlineStudioView: View {
                     }
                 }
                 
+                Section(header: Text("Vision AI Background Removal")) {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Isolate subjects instantly using Apple Vision Framework")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        
+                        HStack(spacing: 12) {
+                            Button(action: {
+                                HapticManager.shared.impact(.medium)
+                                performBackgroundRemoval()
+                            }) {
+                                HStack(spacing: 8) {
+                                    if isProcessingBG {
+                                        ProgressView()
+                                            .tint(.primary)
+                                    } else {
+                                        Image(systemName: "wand.and.stars")
+                                            .font(.system(size: 16, weight: .bold))
+                                    }
+                                    Text(isProcessingBG ? "Processing..." : "Remove BG (Vision)")
+                                        .fontWeight(.bold)
+                                }
+                                .padding(.vertical, 8)
+                                .padding(.horizontal, 14)
+                            }
+                            .buttonStyle(.glass)
+                            .disabled(isProcessingBG)
+                            
+                            if hasRemovedBG || originalUIImage != nil {
+                                Button(action: {
+                                    HapticManager.shared.notification(.success)
+                                    if let orig = originalUIImage {
+                                        selectedUIImage = orig
+                                    }
+                                    originalUIImage = nil
+                                    hasRemovedBG = false
+                                }) {
+                                    HStack(spacing: 6) {
+                                        Image(systemName: "arrow.uturn.backward")
+                                            .font(.system(size: 14, weight: .bold))
+                                        Text("Revert Original")
+                                            .fontWeight(.semibold)
+                                    }
+                                    .foregroundColor(.red)
+                                    .padding(.vertical, 8)
+                                    .padding(.horizontal, 12)
+                                }
+                                .buttonStyle(.glass)
+                            }
+                        }
+                    }
+                    .padding(.vertical, 4)
+                }
+                
                 Section(header: Text("Adjustments")) {
                     VStack(alignment: .leading) {
                         Text("Contrast: \(String(format: "%.1f", transform.contrast))")
@@ -163,6 +222,73 @@ struct OutlineStudioView: View {
                     HapticManager.shared.notification(.success)
                 }
             }
+        }
+    }
+    
+    private func performBackgroundRemoval() {
+        let inputImage: UIImage?
+        if let selected = selectedUIImage {
+            inputImage = selected
+        } else {
+            let config = UIImage.SymbolConfiguration(pointSize: 200, weight: .bold)
+            inputImage = UIImage(systemName: selectedSystemIcon, withConfiguration: config)
+        }
+        
+        guard let source = inputImage else { return }
+        if originalUIImage == nil {
+            originalUIImage = selectedUIImage ?? source
+        }
+        
+        isProcessingBG = true
+        
+        removeVisionBackground(from: source) { result in
+            isProcessingBG = false
+            if let transparentImage = result {
+                selectedUIImage = transparentImage
+                hasRemovedBG = true
+                HapticManager.shared.notification(.success)
+            } else {
+                HapticManager.shared.notification(.error)
+            }
+        }
+    }
+    
+    private func removeVisionBackground(from image: UIImage, completion: @escaping (UIImage?) -> Void) {
+        guard let cgImage = image.cgImage else {
+            completion(nil)
+            return
+        }
+        
+        if #available(iOS 17.0, *) {
+            let request = VNGenerateForegroundInstanceMaskRequest()
+            let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
+            
+            DispatchQueue.global(qos: .userInitiated).async {
+                do {
+                    try handler.perform([request])
+                    guard let result = request.results?.first else {
+                        DispatchQueue.main.async { completion(nil) }
+                        return
+                    }
+                    let maskPixelBuffer = try result.generateMaskedImage(
+                        ofInstances: result.allInstances,
+                        from: handler,
+                        croppedToInstancesExtent: false
+                    )
+                    let ciImage = CIImage(cvPixelBuffer: maskPixelBuffer)
+                    let context = CIContext()
+                    if let resultCGImage = context.createCGImage(ciImage, from: ciImage.extent) {
+                        let processed = UIImage(cgImage: resultCGImage)
+                        DispatchQueue.main.async { completion(processed) }
+                        return
+                    }
+                } catch {
+                    print("Vision error: \(error)")
+                }
+                DispatchQueue.main.async { completion(nil) }
+            }
+        } else {
+            completion(nil)
         }
     }
 }
