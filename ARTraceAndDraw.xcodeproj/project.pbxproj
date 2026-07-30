@@ -16,6 +16,7 @@
 		9B00000D29F0000000000007 /* OutlineStudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B00000E29F0000000000007 /* OutlineStudioView.swift */; };
 		9B00000F29F0000000000008 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B00001029F0000000000008 /* SettingsView.swift */; };
 		9B00001D29F0000000000015 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B00001E29F0000000000016 /* ImagePicker.swift */; };
+		9B00002029F0000000000018 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B00001F29F0000000000017 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		9B00000E29F0000000000007 /* OutlineStudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/OutlineStudioView.swift; sourceTree = "<group>"; };
 		9B00001029F0000000000008 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/SettingsView.swift; sourceTree = "<group>"; };
 		9B00001E29F0000000000016 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/ImagePicker.swift; sourceTree = "<group>"; };
+		9B00001F29F0000000000017 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B00001129F0000000000009 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B00001229F000000000000A /* ARTraceAndDraw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARTraceAndDraw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -61,6 +63,7 @@
 				9B00000E29F0000000000007 /* OutlineStudioView.swift */,
 				9B00001029F0000000000008 /* SettingsView.swift */,
 				9B00001E29F0000000000016 /* ImagePicker.swift */,
+				9B00001F29F0000000000017 /* Assets.xcassets */,
 				9B00000629F0000000000003 /* TracingModels.swift */,
 				9B00000829F0000000000004 /* HapticManager.swift */,
 				9B00001129F0000000000009 /* Info.plist */,
@@ -77,6 +80,7 @@
 			buildPhases = (
 				9B00001729F000000000000F /* Sources */,
 				9B00001329F000000000000B /* Frameworks */,
+				9B00002129F0000000000019 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -138,6 +142,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9B00002129F0000000000019 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9B00002029F0000000000018 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
 		9B00001A29F0000000000012 /* Debug */ = {
