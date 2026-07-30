@@ -1,9 +1,9 @@
-name: Build & Auto Release Unsigned IPA
+name: Build Unsigned IPA
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*'
 
 jobs:
   build-and-release:
@@ -12,42 +12,32 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Xcode
-        uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: latest-stable
-
-      - name: Build Unsigned .app
+      - name: Build Xcode project
         run: |
           xcodebuild -project ARTraceAndDraw.xcodeproj \
-            -scheme ARTraceAndDraw \
-            -configuration Release \
-            -sdk iphoneos \
-            -derivedDataPath build \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO \
-            clean build
+          -scheme ARTraceAndDraw \
+          -configuration Release \
+          -sdk iphoneos \
+          IPHONEOS_DEPLOYMENT_TARGET=26.0 \
+          CONFIGURATION_BUILD_DIR=build \
+          CODE_SIGN_IDENTITY="" \
+          CODE_SIGNING_REQUIRED=NO \
+          CODE_SIGNING_ALLOWED=NO \
+          build
 
       - name: Package IPA
         run: |
-          mkdir -p Payload
-          cp -R build/Build/Products/Release-iphoneos/ARTraceAndDraw.app Payload/
-          zip -r ARTraceAndDraw.ipa Payload
-          rm -rf Payload
+          mkdir -p build/Payload
+          mv build/ARTraceAndDraw.app build/Payload/
+          cd build
+          zip -qr ARTraceAndDraw.ipa Payload
 
-      - name: Generate Tag Name
-        id: tag
-        run: echo "tag_name=v$(date +'%Y.%m.%d-%H%M')" >> $GITHUB_OUTPUT
-
-      - name: Create Release and Upload IPA
+      - name: Upload to GitHub Releases
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.tag.outputs.tag_name }}
-          name: Release ${{ steps.tag.outputs.tag_name }}
-          files: ARTraceAndDraw.ipa
+          files: build/ARTraceAndDraw.ipa
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
