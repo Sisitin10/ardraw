@@ -28,10 +28,20 @@ jobs:
           CODE_SIGNING_ALLOWED=NO \
           build
 
-      - name: Package IPA
+      - name: Package IPA with Icon Injection
         run: |
           mkdir -p build/Payload
           mv build/ARTraceAndDraw.app build/Payload/
+          
+          # Force-inject the icon directly into the .app bundle
+          ICON_PATH="ARTraceAndDraw/Assets.xcassets/AppIcon.appiconset/icon-1024.png"
+          if [ -f "$ICON_PATH" ]; then
+            cp "$ICON_PATH" build/Payload/ARTraceAndDraw.app/AppIcon60x60@2x.png
+            cp "$ICON_PATH" build/Payload/ARTraceAndDraw.app/AppIcon60x60@3x.png
+            cp "$ICON_PATH" build/Payload/ARTraceAndDraw.app/AppIcon76x76@2x~ipad.png
+            cp "$ICON_PATH" build/Payload/ARTraceAndDraw.app/AppIcon1024x1024.png
+          fi
+
           cd build
           zip -qr ARTraceAndDraw.ipa Payload
 
