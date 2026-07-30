@@ -190,7 +190,7 @@ struct ARCameraView: View {
                         Image(systemName: transform.isLocked ? "lock.fill" : "lock.open.fill")
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(transform.isLocked ? .yellow : .white)
-                            .frame(width: 24, height: 24, alignment: .center)
+                            .frame(width: 44, height: 44)
                     }
                     .buttonStyle(.glass)
                     .interactive(true)
@@ -202,7 +202,7 @@ struct ARCameraView: View {
                         Image(systemName: "camera.rotate.fill")
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(.white)
-                            .frame(width: 24, height: 24, alignment: .center)
+                            .frame(width: 44, height: 44)
                     }
                     .buttonStyle(.glass)
                     .interactive(true)
@@ -220,7 +220,7 @@ struct ARCameraView: View {
                     }
                     .pickerStyle(.segmented)
                     .frame(width: 110)
-                    .glassBackgroundEffect()
+                    .glassEffect(.regular)
                     .interactive(true)
                     .onChange(of: zoomLevel) { _, _ in
                         HapticManager.shared.selection()
@@ -244,7 +244,7 @@ struct ARCameraView: View {
                     }
                     .padding(.horizontal, 16)
                     .padding(.vertical, 8)
-                    .background(.ultraThinMaterial)
+                    .glassEffect(.regular)
                     .cornerRadius(16)
                 }
                 .padding(.horizontal, 24)
