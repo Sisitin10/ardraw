@@ -36,6 +36,16 @@ jobs:
           cd build
           zip -qr ARTraceAndDraw.ipa Payload
 
+      - name: Auto-update version in apps.json
+        run: |
+          NEW_VER="1.0.${{ github.run_number }}"
+          sed -i '' "s/\"version\": \".*\"/\"version\": \"$NEW_VER\"/" apps.json
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add apps.json
+          git commit -m "Auto-update apps.json version to $NEW_VER" || echo "No changes"
+          git push
+
       - name: Upload to GitHub Releases
         uses: softprops/action-gh-release@v2
         with:
